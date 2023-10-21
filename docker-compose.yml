@@ -1,14 +1,11 @@
 version: '3'
 
-volumes:
-  postgres_data:
-    driver: local
-
 services:
   postgres:
     container_name: keycloak_db
     image: "postgres:latest"
     volumes:
+      - keycloak_postgresql:/var/lib/postgresql
       - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: ${KEYCLOAK_DB}
@@ -21,9 +18,12 @@ services:
   keycloak:
     container_name: keycloak
     image: jboss/keycloak:latest
+    volumes:
+      - keycloak_data:/data
     environment:
-      DB_VENDOR: POSTGRES
-      DB_ADDR: postgres
+      DB_VENDOR: postgres
+      DB_ADDR: keycloak_db
+      DB_PORT: 5432
       DB_DATABASE: ${KEYCLOAK_DB}
       DB_USER: ${KEYCLOAK_DB_USER}
       DB_SCHEMA: ${KEYCLOAK_DB_SCHEMA}
@@ -37,5 +37,10 @@ services:
       - keycloak_network
     depends_on:
       - postgres
+volumes:
+  postgres_data:
+    driver: local
+  keycloak_postgresql:
+  keycloak_data:
 networks:
   keycloak_network:
