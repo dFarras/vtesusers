@@ -21,7 +21,7 @@ services:
     volumes:
       - keycloak_data:/data
     environment:
-      DB_VENDOR: postgres
+      DB_VENDOR: POSTGRES
       DB_ADDR: keycloak_db
       DB_PORT: 5432
       DB_DATABASE: ${KEYCLOAK_DB}
