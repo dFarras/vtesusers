@@ -17,3 +17,9 @@ jboss/server/minimal/work/**/*
 # deployed package files #
 
 *.DEPLOYED
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
