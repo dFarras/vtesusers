@@ -7,7 +7,7 @@ volumes:
 services:
   postgres:
     container_name: keycloak_db
-    image: postgres
+    image: "postgres:latest"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
