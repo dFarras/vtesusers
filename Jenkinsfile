@@ -1,25 +1,33 @@
 node {
-  def image_name = "vtes-users-image"
-  def container_name = "vtes-users"
+  def postgres_image_name = "vtes-users-db-image"
+  def postgres_container_name = "vtes-users-db"
+  def keycloak_image_name = "vtes-users-image"
+  def keycloak_container_name = "vtes-users"
 
   stage('checkout') {
     cleanWs()
     checkout scm
   }
 
-  stage('remove old image') {
+  stage('remove old keycloak') {
     try {
-      sh "docker stop \$(docker ps -a -q --filter name=${container_name})"
-      sh "docker rm \$(docker ps -a -q --filter name=${container_name})"
+      sh "docker stop \$(docker ps -a -q --filter name=${keycloak_container_name})"
+      sh "docker rm \$(docker ps -a -q --filter name=${keycloak_container_name})"
       sh "docker image prune -fa"
     } catch (Exception e) {
       echo e.getMessage()
     }
   }
 
-  stage('build image') {
-   sh "docker build --progress=plain --no-cache -t ${image_name} ."
-  }
+    stage('remove old postgres') {
+      try {
+        sh "docker stop \$(docker ps -a -q --filter name=${postgres_container_name})"
+        sh "docker rm \$(docker ps -a -q --filter name=${postgres_container_name})"
+        sh "docker image prune -fa"
+      } catch (Exception e) {
+        echo e.getMessage()
+      }
+    }
 
   stage('deploy') {
     withCredentials([
