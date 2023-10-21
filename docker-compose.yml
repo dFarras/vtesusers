@@ -30,6 +30,7 @@ services:
       DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
       KEYCLOAK_USER: ${KEYCLOAK_USER}
       KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
+      PROXY_ADDRESS_FORWARDING: true
     ports:
       - 9000:8080
     networks:
