@@ -11,7 +11,6 @@ node {
 
   stage('remove old keycloak') {
     try {
-      sh "docker compose down --volumes"
       sh "docker stop \$(docker ps -a -q --filter name=${keycloak_container_name})"
       sh "docker rm \$(docker ps -a -q --filter name=${keycloak_container_name})"
       sh "docker image prune -fa"
